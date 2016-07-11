@@ -1,9 +1,5 @@
-Multiple-File-upload-in-Node
+Slydes
 ===================
+An application to easily share photo albums across the world with a single link.
 
-Download code and type 
-```node Server.js``` 
-Visit ```localhost:3000``` to view the app.
-
-
-
+Slydes is a nodejs application that uses mongodb, expressjs.
