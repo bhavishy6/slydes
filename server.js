@@ -1,16 +1,149 @@
-var http = require("http");
-var url = require("url");
+var express	=	require("express");
+var bodyParser =	require("body-parser");
+var fs = require("fs-extra");
+var path = require("path");
+var multer	=	require('multer');
+var app	=	express();
 
-function start(route, handle) {
-    function onRequest (request, response) {
-        var pathname = url.parse(request.url).pathname;
-        console.log("Request for " + pathname + " received.");
-        
-        route(handle, pathname, response);
+//MongoClient:
+var mogodb = require('./mongo.js');
+
+var Mongoose = require('./mongooses.js');
+
+//ENVIRONMENTS:
+app.use(bodyParser.urlencoded({
+    extended:false
+}));
+app.use('/styles', express.static(__dirname + '/styles'));
+
+app.use(bodyParser.json());
+app.use('/public', express.static(__dirname + "/public"));
+
+//FINAL VARS:
+var UPLOAD_LIMIT = 5;
+var MUST_WALK_AGAIN = 1;
+
+//global vars
+var imagesUpload = [];
+
+var storage	=	multer.diskStorage({
+    destination: function (req, file, callback) {
+        callback(null, './public/uploads/');
+    },
+    filename: function (req, file, callback) {
+		var guid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+			var r = Math.random()*16|0, v = c == 'x' ? r : (r&0x3|0x8);
+			return v.toString(16);
+		});
+
+		var filename = "";
+        switch (file.mimetype){
+            case "image/jpeg":
+                filename= file.fieldname + '-' + guid  + ".jpg";
+                console.log(filename + " is a [jpg]");
+                break;
+            case "image/png":
+                filename= file.fieldname + '-' + guid + ".png";
+                console.log(filename + "is a [png]");
+                break;
+            case "image/gif":
+                filename= file.fieldname + '-' + guid + ".gif";
+                console.log(filename + "is a [gif]");
+                break;
+            default:
+                filename= file.fieldname + '-' + guid + ".jpg";
+                console.log(filename + "defaulted to [jpg]");
+                break;
+        }
+        console.log("filename :" + filename);
+        createImageObject(filename);
+		callback(null, filename);
     }
-    
-    http.createServer(onRequest).listen(8888);
-    console.log("Server has started.")   
+});
+
+function createImageObject(filename) {
+    imagesUpload.push(new Mongoose.Image( {	date: Date.now(), filename: filename, meta: { favs: 0 } } ));
 }
 
-exports.start = start;
+
+var upload = multer({ storage : storage }).array('userPhoto', UPLOAD_LIMIT);
+
+app.get('/',function(req,res){
+    res.sendFile(__dirname + "/index.html");
+});
+
+app.get("/get_upload_limit", function(req, res) {
+    res.json({upload_limit: UPLOAD_LIMIT});
+});
+
+var items = [];
+
+app.post("/images", function(req, res) {
+    console.log("album bcknd: " + req.body.album_select);
+    if(MUST_WALK_AGAIN) {
+        fs.walk("./public/uploads/" + req.body.album_select)
+            .on('data', function (item) {
+                var item_path = item.path;
+                var image_name = item_path.substring(item_path.indexOf(req.body.album_select));
+                if(image_name.charAt(0) == '.' || image_name.charAt(0) == ' ' ) {
+
+                } else {
+                    items.push(image_name);
+                }
+            })
+            .on('end', function () {
+                res.json({images: items}); // => [ ... array of files]
+            })
+        MUST_WALK_AGAIN = 0;
+    } else {
+        res.json({images: items}); // => [ ... array of files]
+    }
+});
+
+function getDirectories(srcpath) {
+    return fs.readdirSync(srcpath).filter(function(file) {
+        return fs.statSync(path.join(srcpath, file)).isDirectory();
+    });
+}
+
+
+app.get("/get_albums_titles", function(req, res) {
+	mogodb.DB_getAllUserAlbumsTitles("emma watson", function(albums) {
+		var titles = [];
+		albums.forEach(function(album) {
+			titles.push(album.title);
+		});
+		res.json(titles);
+	});
+});
+
+//TODO: DELETE ALBUM
+app.post("/delete_album", function(req, res) {
+
+});
+
+app.post("/new_album", function(req, res) {
+
+	mogodb.DB_insertNewAlbum("emma watson", req.body.albumtitle, req.body.desc)
+	res.send();
+});
+
+//TODO: EMPTY ALBUM
+app.post("/empty_album", function(req, res) {
+    fs.emptyDir()
+});
+
+app.post("/uploadToAlbum", upload, function(req,res){
+//    upload(req,res,function(err) {
+//        fs.mkdirSync("./public/uploads/");
+		MUST_WALK_AGAIN = 1;
+		mogodb.DB_insertMongooseImagesToAlbum(imagesUpload, "emma watson", req.body.album_selector, function(album) {
+            console.log("insert callback:: \n" + album);
+		});
+        res.end("File is uploaded");
+//    });
+});
+
+app.listen(3000,function(){
+    console.log("Working on port 3000");
+});
