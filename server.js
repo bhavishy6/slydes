@@ -11,10 +11,9 @@ var mogodb = require('./mongo.js');
 var Mongoose = require('./mongooses.js');
 
 //ENVIRONMENTS:
-app.use(bodyParser.urlencoded({
-    extended:false
-}));
+app.use(bodyParser.urlencoded({ extended:false }));
 app.use('/styles', express.static(__dirname + '/styles'));
+app.use('/js', express.static(__dirname + '/js'));
 
 app.use(bodyParser.json());
 app.use('/public', express.static(__dirname + "/public"));
@@ -79,25 +78,16 @@ app.get("/get_upload_limit", function(req, res) {
 var items = [];
 
 app.post("/images", function(req, res) {
-    console.log("album bcknd: " + req.body.album_select);
-    if(MUST_WALK_AGAIN) {
-        fs.walk("./public/uploads/" + req.body.album_select)
-            .on('data', function (item) {
-                var item_path = item.path;
-                var image_name = item_path.substring(item_path.indexOf(req.body.album_select));
-                if(image_name.charAt(0) == '.' || image_name.charAt(0) == ' ' ) {
+    mogodb.DB_getAlbumByName("emma watson", req.body.album_select, function(album) {
+        console.log(JSON.stringify(album));
+        res.redirect('/album/' + album.url);
+    });
+});
 
-                } else {
-                    items.push(image_name);
-                }
-            })
-            .on('end', function () {
-                res.json({images: items}); // => [ ... array of files]
-            })
-        MUST_WALK_AGAIN = 0;
-    } else {
-        res.json({images: items}); // => [ ... array of files]
-    }
+app.get('/album/:guid', function(req, res) {
+    mogodb.DB_getAlbumByURL(req.params.guid, function(album) {
+
+    });
 });
 
 function getDirectories(srcpath) {
@@ -123,9 +113,9 @@ app.post("/delete_album", function(req, res) {
 });
 
 app.post("/new_album", function(req, res) {
-
-	mogodb.DB_insertNewAlbum("emma watson", req.body.albumtitle, req.body.desc)
-	res.send();
+    //TODO: hashing/salting for the album key
+	mogodb.DB_insertNewAlbum("emma watson", req.body.albumtitle, req.body.desc, req.body.key)
+	res.end();
 });
 
 //TODO: EMPTY ALBUM

@@ -17,11 +17,11 @@ html {
     height: 100%;
 }
 
-span#nameheader>span.bracket {
-    /*font-weight: bolder;*/
+span#nameheader {
+    font-weight: 200;
 }
 span#nameheader>span#y {
-    font-weight: bold;
+    font-weight: 400;
 }
 
 .navbar-nav {
@@ -143,8 +143,5 @@ p.panel_body {
 }
 
 .about-section {
-    height: 100%;
-    padding-top: 150px;
-    text-align: center;
-    background: #fff;
+    background: #eee;
 }
