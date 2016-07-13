@@ -24,6 +24,10 @@ span#nameheader>span#y {
     font-weight: 400;
 }
 
+span#status {
+    color: #7fdd7f;
+}
+
 .navbar-nav {
     float: right;
 }

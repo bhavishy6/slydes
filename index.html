@@ -51,6 +51,9 @@
 
         <section id="upload" class="upload-section content-section text-center">
         <p id="upload_limit"></p>
+
+        <span id = "status"></span>
+
         <script>
             $.get("/get_upload_limit", function(data) {
                 limit = data.upload_limit;
@@ -70,7 +73,6 @@
 
             </select>
 			<input type="submit" value="Upload Image" name="submit" onclick="uploaded()">
-            <span id = "status"></span>
         </form>
 
         <h6>Preview Album</h6>
@@ -229,6 +231,23 @@
 
             return false;
         });
+
+        $('#newAlbumForm').submit(function() {
+            $("#status").empty().text("File is uploading...");
+            $(this).ajaxSubmit({
+                error: function(xhr) {
+                    status('Error: ' + xhr.status);
+                },
+
+                success: function(response) {
+                    console.log(response)
+                    $("#status").empty().text(response);
+                }
+            });
+
+            return false;
+        });
+
     });
     </script>
 </html>

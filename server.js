@@ -115,7 +115,7 @@ app.post("/delete_album", function(req, res) {
 app.post("/new_album", function(req, res) {
     //TODO: hashing/salting for the album key
 	mogodb.DB_insertNewAlbum("emma watson", req.body.albumtitle, req.body.desc, req.body.key)
-	res.end();
+	res.end("Album Created");
 });
 
 //TODO: EMPTY ALBUM
