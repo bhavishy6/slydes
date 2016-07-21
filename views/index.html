@@ -1,0 +1,109 @@
+<html ng-app="slydes">
+    <head>
+        <title>Slydes.</title>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery.form/3.51/jquery.form.min.js"></script>
+
+        <script src="js/scrolling-nav.js"></script>
+        <script src="js/dropzone.js"></script>
+
+        <!-- AngularJS Core JS -->
+        <script src="public/libs/angular/angular.min.js"></script>
+        <script src="public/angular-ui-router.min.js"></script>
+        <script src="public/libs/better-simple-slideshow.min.js"></script>
+
+        <script src="js/setLoad.js"></script>
+    <script src="public/libs/ui-bootstrap-tpls-0.11.0.min.js"></script>
+    <script src="http://code.createjs.com/preloadjs-0.4.1.min.js"></script>
+
+    	<!-- ANGULAR CUSTOM -->
+        <script src="js/app.js"></script>
+        <script src="js/appRoutes.js"></script>
+    	<script src="js/controllers/MainController.js"></script>
+    	<script src="js/controllers/SetController.js"></script>
+    	<script src="js/controllers/CheckSetController.js"></script>
+    	<script src="js/services/SetService.js"></script>
+    	<script src="js/services/MainService.js"></script>
+    	<script src="js/services/CheckSetService.js"></script>
+        
+        <link type="text/css" rel="stylesheet" href="public/libs/jquery.fullpage.min.css">
+
+
+        <script src="public/libs/angular-simple-slideshow/angular-simple-slideshow.js"></script>
+
+
+
+        <!-- Bootstrap Core CSS -->
+        <link href="styles/bootstrap.min.css" rel="stylesheet">
+
+        <link href="public/libs/simple-slideshow-styles.css" rel="stylesheet">
+
+        <!-- Custom CSS -->
+        <link href="styles/styles.css" rel="stylesheet">
+
+
+
+    </head>
+
+    <body>
+        <!-- Navigation -->
+        <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+            <div class="container">
+                <div class="navbar-header page-scroll">
+                    <a class="navbar-brand page-scroll" ui-sref="/home">
+                        <span id="nameheader">
+                            Sl<span id="y" class="lower light">y</span>des.
+                        </span>
+                    </a>
+                </div>
+
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse navbar-ex1-collapse">
+                    <ul class="nav navbar-nav" >
+                        <!-- Hidden li included to remove active class from about link when scrolled up past about section -->
+                        <li class="hidden">
+                            <a href="#page-top"></a>
+                        </li>
+                        <li>
+                            <a class="page-scroll" href="#upload">Upload</a>
+                        </li>
+                        <li>
+                            <a class="page-scroll" href="#about">About</a>
+                        </li>
+                    </ul>
+                </div>
+                <!-- /.navbar-collapse -->
+            </div>
+            <!-- /.container -->
+        </nav>
+
+
+        <!-- ANGULAR DYNAMIC CONTENT -->
+        <div ui-view></div>
+
+
+        <!-- <div>
+            <ul>
+                <li ng-repeat="image in images">
+                    <span>{{image.title}}</span>
+                    <img src="{{image.src}}" />
+                </li>
+            </ul>
+        </div>
+
+        <script type="text/ng-template" id="/set.html">
+            <div class="page-header">
+                <h3>
+                    <a ng-show="post.link" href="{{post.link}}">
+                        {{post.title}}
+                    </a>
+                    <span ng-hide="post.link">
+                        {{post.title}}
+                    </span>
+                </h3>
+            </div>
+        </script> -->
+
+
+    </body>
+</html>

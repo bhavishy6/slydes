@@ -1,0 +1,25 @@
+{
+  "name": "bower.json",
+  "description": "",
+  "version": "1.0.0",
+  "dependencies": {
+    "bootstrap": "latest",
+    "font-awesome": "latest",
+    "animate.css": "latest",
+    "angular": "latest",
+    "angular-route": "latest"
+  },
+  "main": "",
+  "authors": [
+    "Bhavish Yalamanchi <bhavishy6@gmail.com>"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/bhavishy6/slydes",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

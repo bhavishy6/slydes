@@ -1,0 +1,20 @@
+
+        <p>
+            {{tagline}}
+        </p>
+
+        <form name="keycheck" ng-show="{{false}}" ng-submit="validate()">
+            <input type="password" name="key_input" ng-model="keyForm.key"/>
+            <input type="submit" value="Go!" name="submit"  onclick="initBSS()" />
+        </form>
+
+
+    <div class="bss-slides">
+        <figure ng:repeat="image in slides" >
+            <img ng-src="public/uploads/{{image.filename}}" width="100%" />
+            <figcaption>{{image.date}}</figcaption>
+        </figure>
+    </div>
+    <script>
+    
+    </script>

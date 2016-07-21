@@ -1,53 +1,6 @@
-<html>
-    <head>
-        <title>Slydes.</title>
-        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-        <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery.form/3.51/jquery.form.min.js"></script>
-
-        <script src="js/scrolling-nav.js"></script>
-        <script src="js/dropzone.js"></script>
-
-        <!-- Bootstrap Core CSS -->
-        <link href="styles/bootstrap.min.css" rel="stylesheet">
-
-        <!-- Custom CSS -->
-        <link href="styles/styles.css" rel="stylesheet">
-
-    </head>
-
-    <body>
-        <!-- Navigation -->
-        <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
-            <div class="container">
-                <div class="navbar-header page-scroll">
-                    <a class="navbar-brand page-scroll" href="#page-top">
-                        <span id="nameheader">
-                            Sl<span id="y" class="lower light">y</span>des.
-                        </span>
-                    </a>
-                </div>
-
-                <!-- Collect the nav links, forms, and other content for toggling -->
-                <div class="collapse navbar-collapse navbar-ex1-collapse">
-                    <ul class="nav navbar-nav" >
-                        <!-- Hidden li included to remove active class from about link when scrolled up past about section -->
-                        <li class="hidden">
-                            <a href="#page-top"></a>
-                        </li>
-                        <li>
-                            <a class="page-scroll" href="#upload">Upload</a>
-                        </li>
-                        <li>
-                            <a class="page-scroll" href="#about">About</a>
-                        </li>
-                    </ul>
-                </div>
-                <!-- /.navbar-collapse -->
-            </div>
-            <!-- /.container -->
-        </nav>
-
-
+<p>
+    {{ tagline }}
+</p>
 
         <section id="upload" class="upload-section content-section text-center">
         <p id="upload_limit"></p>
@@ -64,37 +17,25 @@
 
         <form id="uploadForm"
         action="/uploadToAlbum"
-        method="post"
-        class="dropzone">
-        <div class="fallback">
+        method="post">
             <input type="file" name="userPhoto" multiple/>
-        </div>
-            <select name="album_selector" class="album_selector" Content-Type: application/json>
-
+            <select name="album_selector" class="album_selector">
+                <option ng:repeat="album in albums" value="{{album.url}}" >{{album.title}}</option>
             </select>
 			<input type="submit" value="Upload Image" name="submit" onclick="uploaded()">
         </form>
 
         <h6>Preview Album</h6>
-        <form id="previewForm" action="/images" method="post">
-            <select class="album_selector" name="album_select">
-
+        <form id="previewForm" method="post">
+            <select class="album_selector" name="album_select" data-ng-model="selectedOption" >
+                <option ng:repeat="album in albums" value="{{album.url}}">{{album.title}}</option>
             </select>
 
             <!--name="submit" onclick="toggle_preview()" -->
 
-            <input type="submit" value="Preview Images">
+            <input type="submit" value="Preview Images" ui-sref="enter_set({guid: selectedOption })">
         </form>
-        <script>
-            var albums = [];
-            $.get("/get_albums_titles", function(data) {
-                console.log("getalbums: " + data);
-                albums = data;
-                for(i = 0; i < albums.length; i++) {
-                    $(".album_selector").append("<option value='" + albums[i] + "'>" + albums[i] + "</option>");
-                }
-            });
-        </script>
+
         <div id="images_preview"></div>
         <script>
             var displayed = 0;
@@ -159,7 +100,7 @@
             <input type='text' id='ownerName' name='ownerName' value='emma watson'><br>
             <input type='text' id='desc' name='desc'><br>
             <input type='password' id='key' name='key'><br>
-            <input type="submit" onclick="new_album()" value="New Album">
+            <input type="submit" value="New Album">
         </form>
 
         <h6>Empty Album</h6>
@@ -175,12 +116,14 @@
             <div class="container">
                 <div class="row">
                     <div class="col-lg-12">
-                        <h1>About Me</h1>
-                            <p>
-                    A <span id="year">second year</span> <span id="computerscience">computer science</span> student at <span class="ut">The University of Texas.</span>
+                        <h1>About Sl<span id="y" class="lower light">y</span>des.</h1>
+                        <p>
+                            Upload your photos and albums and easily share them across the world with one simple link!
                         </p>
-                    <p>I enjoy getting things done. I especially enjoy exploring a variety of topics, ranging from consciousness and social interactions between humans to the vast, expansive Universe. Curiosity and my thirst for more knowledge is what drives me to be productive.</p>
-                    <p>When I am not learning, I can be found making music and taking <a href="#creations">photographs</a>. Creativity goes hand in hand with curiosity and luckily, my interests drive me to be more creative.</p>
+                        <ul>
+                            <li>Share albums to the world or to specific people with the ability to set a secure key</li>
+                            <li>Simply share the key with the people you want to give access to and voila!</li>
+                        </ul>
                     </div>
                     <a class="btn btn-default page-scroll" href="#projects">View more</a>
                 </div>
@@ -211,7 +154,6 @@
             </div>
         </section>
 
-    </body>
     <script>
 
     $(document).ready(function() {
@@ -250,4 +192,3 @@
 
     });
     </script>
-</html>

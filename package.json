@@ -8,7 +8,8 @@
     "fs-extra": "^0.30.0",
     "mongodb": "^2.1.8",
     "multer": "1.1.0",
-    "path": "^0.12.7"
+    "path": "^0.12.7",
+    "pug": "^2.0.0-beta3"
   },
   "devDependencies": {
     "should": "~7.1.0",

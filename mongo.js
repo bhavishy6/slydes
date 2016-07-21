@@ -14,7 +14,7 @@ function guidGenerator() {
     return (S4()+S4()+"-"+S4()+"-"+S4()+"-"+S4()+"-"+S4()+S4()+S4());
 }
 
-var insertNewAlbum = function(ownerName, title, desc, key, callback) {
+var insertNewAlbum = function(ownerName, title, desc, key, isProtected, callback) {
 	var genURL = guidGenerator();
 	Mongoose.Album.find({}, function(err, albums) {
 		albums.forEach(function(album) {
@@ -26,14 +26,24 @@ var insertNewAlbum = function(ownerName, title, desc, key, callback) {
 			}
 		});
 	});
-	var AlbumGoose = new Mongoose.Album(
-		{ owner:  ownerName,
-		  title: title,
-		  description: desc,
-		  url: genURL,
-		  key: key
-		} );
-
+    if(key) {
+    	var AlbumGoose = new Mongoose.Album(
+    		{ owner:  ownerName,
+    		  title: title,
+    		  description: desc,
+    		  url: genURL,
+    		  key: key,
+              isProtected: isProtected
+    		} );
+    } else {
+        var AlbumGoose = new Mongoose.Album(
+    		{ owner:  ownerName,
+    		  title: title,
+    		  description: desc,
+    		  url: genURL,
+              isProtected: isProtected
+    		} );
+    }
 	AlbumGoose.save(function(err, album) {
 		if (err) return console.error(err);
 		console.log(album + "album saved");
@@ -69,6 +79,7 @@ var getAlbum = function(ownerName, album, callback) {
 
 var getAlbumByURL = function(url, callback) {
 	Mongoose.Album.findOne( { url: url }, function(err, album) {
+        console.log("URL: " + url + "\n\n" + album);
 		callback(album);
 		return album;
 	} );
@@ -83,6 +94,18 @@ var getAllUserAlbums = function(userName, callback) {
 			albumTits.push(albums[i].title);
 		}
 		return albumTits;
+	});
+}
+
+var checkAlbumProtection = function(guid, callback) {
+    Mongoose.Album.findOne( {url:guid}, function(err, album) {
+		if(err) return console.error(err);
+        if(album.key) {
+            console.log("album '"+guid+"' is protected");
+            return true;
+        } else {
+            return false;
+        }
 	});
 }
 
@@ -116,9 +139,10 @@ var insertImageToAlbum = function(filename, owner, album, callback) {
 
 }
 
-var insertMongooseImagesToAlbum = function(images, owner, album, callback) {
+var insertMongooseImagesToAlbum = function(images, guid, callback) {
 	var albumUpdated;
-	Mongoose.Album.findOne( { owner:owner, title:album }, function (err, album) {
+	Mongoose.Album.findOne( { url:guid }, function (err, album) {
+        console.log("Album to be uploaded tooooooo: " + album);
 		if (err)
 			return console.error(image.filename + "had ERROR:  "+err);
 		console.log("FOUND ALBUM: " + album);
@@ -131,7 +155,6 @@ var insertMongooseImagesToAlbum = function(images, owner, album, callback) {
 			}
 		});
 		albumUpdated = album;
-		// console.log(album);
 	});
 	images.forEach(function(image) {
 		image.save(function(err, image) {
@@ -143,7 +166,7 @@ var insertMongooseImagesToAlbum = function(images, owner, album, callback) {
 }
 
 function QUERY_getAllUserAlbums(user) {
-	return Mongoose.Album.find( {owner: user}, 'title');
+	return Mongoose.Album.find( {owner: user} );
 }
 
 module.exports = {
@@ -157,27 +180,27 @@ module.exports = {
 		});
 	},
 
-	DB_insertMongooseImagesToAlbum : function (image, owner, album) {
+	DB_insertMongooseImagesToAlbum : function (image, guid) {
 		MongoClient.connect(url, function(err, db) {
 			assert.equal(null, err);
-			insertMongooseImagesToAlbum(image, owner, album, function() {
+			insertMongooseImagesToAlbum(image, guid, function() {
 			  db.close();
 				console.log("db close");
 			});
 		});
 	},
 
-	DB_insertNewAlbum : function (ownerName, title, desc, key) {
+	DB_insertNewAlbum : function (ownerName, title, desc, key, isProtected) {
 		MongoClient.connect(url, function(err, db) {
 			assert.equal(null, err);
-			insertNewAlbum(ownerName, title, desc, key, function() {
+			insertNewAlbum(ownerName, title, desc, key, isProtected, function() {
 			  db.close();
 				console.log("db close");
 			});
 		});
 	},
 
-	DB_getAllUserAlbumsTitles : function(userName, callback) {
+	DB_getAllUserAlbums : function(userName, callback) {
 		return QUERY_getAllUserAlbums(userName).lean().exec(function(err, albums) {
 			var ret = [];
 			callback(albums);
@@ -196,7 +219,10 @@ module.exports = {
 
 	DB_getAlbumByURL : function(url, callback) {
 		return getAlbumByURL(url, callback);
-	}
+	},
+    DB_checkAlbumProtection : function(url, callback) {
+        return checkAlbumProtection(url, callback);
+    }
 }
 
 /*var removeRestaurants = function(db, callback) {
