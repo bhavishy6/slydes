@@ -16,8 +16,8 @@
         <form id="uploadForm"
         action="/uploadToAlbum"
         method="post">
-                <input type="file" name="userPhoto" multiple/>
-            <select name="album_selector" class="album_selector">
+                <input type="file" name="userPhoto" multiple required/>
+            <select name="album_selector" class="album_selector" required>
                 <option ng:repeat="album in albums" value="{{album.url}}" >{{album.title}}</option>
             </select>
 			<input type="submit" value="Upload Image" name="submit" onclick="uploaded()">
@@ -25,7 +25,7 @@
 
         <h6>Preview Album</h6>
         <form id="previewForm" method="post">
-            <select class="album_selector" name="album_select" data-ng-model="selectedOption" >
+            <select class="album_selector" name="album_select" data-ng-model="selectedOption" required >
                 <option ng:repeat="album in albums" value="{{album.url}}">{{album.title}}</option>
             </select>
 
@@ -94,9 +94,9 @@
 
 		<h6>New Album</h6>
         <form id="newAlbumForm" action="/new_album" method="post">
-            <label>Album Title:</label><input type='text' id='albumtitle' name='albumtitle'><br>
-            <label>Owner:</label><input type='text' id='ownerName' name='ownerName' value='emma watson'><br>
-            <label>Descrption:</label><input type='text' id='desc' name='desc'><br>
+            <label>Album Title:</label><input type='text' id='albumtitle' name='albumtitle' required><br>
+            <label>Owner:</label><input type='text' id='ownerName' name='ownerName' value='emma watson' required><br>
+            <label>Descrption:</label><input type='text' id='desc' name='desc' required><br>
             <!-- <input type='password' id='key' name='key'><br> -->
             <input type="submit" value="New Album">
         </form>
