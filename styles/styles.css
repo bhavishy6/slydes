@@ -90,6 +90,9 @@ h3.project_title {
     font-size: 18px;
     color:grey;
 }
+h3.album_title {
+    text-align: center;
+}
 
 p.project_desc {
     font-size: 15px;
