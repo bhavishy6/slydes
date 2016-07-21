@@ -1,6 +1,4 @@
-<p>
-    {{ tagline }}
-</p>
+
 
         <section id="upload" class="upload-section content-section text-center">
         <p id="upload_limit"></p>
@@ -18,7 +16,7 @@
         <form id="uploadForm"
         action="/uploadToAlbum"
         method="post">
-            <input type="file" name="userPhoto" multiple/>
+                <input type="file" name="userPhoto" multiple/>
             <select name="album_selector" class="album_selector">
                 <option ng:repeat="album in albums" value="{{album.url}}" >{{album.title}}</option>
             </select>
@@ -87,12 +85,12 @@
 
         </script>
 
-        <h6>Delete Album</h6>
+        <!-- <h6>Delete Album</h6>
         <form id="deleteForm" action="/delete_album">
             <select class="album_selector" name="album">
             </select>
             <input type="button" onclick="delete_album()" value="Delete Album">
-        </form>
+        </form> -->
 
 		<h6>New Album</h6>
         <form id="newAlbumForm" action="/new_album" method="post">
@@ -103,12 +101,12 @@
             <input type="submit" value="New Album">
         </form>
 
-        <h6>Empty Album</h6>
+        <!-- <h6>Empty Album</h6>
         <form id="emptyAlbumForm" action="/empty_album">
             <select class="album_selector" name="album">
             </select>
             <input type="button" onclick="delete_album()" value="Empty Album">
-        </form>
+        </form> -->
     </section>
 
         <!-- About Section -->
@@ -120,7 +118,7 @@
                         <p>
                             Upload your photos and albums and easily share them across the world with one simple link!
                         </p>
-                        <ul>
+                        <ul class="features">
                             <li>Share albums to the world or to specific people with the ability to set a secure key</li>
                             <li>Simply share the key with the people you want to give access to and voila!</li>
                         </ul>
@@ -130,7 +128,7 @@
             </div>
         </section>
 
-        <section id="contact" class="section">
+        <section id="contact" class="contact-section">
             <div class="container">
                 <div class="row">
                     <div class="col-lg-12">

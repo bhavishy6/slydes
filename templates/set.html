@@ -12,8 +12,7 @@
     <div class="bss-slides">
         <figure ng:repeat="image in slides" >
             <img ng-src="public/uploads/{{image.filename}}" width="100%" />
-            <figcaption>{{image.date}}</figcaption>
-            <a href="public/uploads/{{image.filename}}" download >Download</a>
+            <figcaption>{{image.date}} <a href="public/uploads/{{image.filename}}" download >Download</a> </figcaption>
         </figure>
     </div>
     <script>

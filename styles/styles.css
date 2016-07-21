@@ -134,8 +134,12 @@ p.panel_body {
     padding: 0 10px;
 }
 
+ul.features {
+    list-style: none;
+}
 
-.section:nth-child(odd) {
+
+/*.section:nth-child(odd) {
     height: 100%;
     padding-top: 50px;
     text-align: center;
@@ -147,10 +151,15 @@ p.panel_body {
     padding-top: 100px;
     text-align: center;
     background: #fff;
-}
+}*/
 
 .about-section {
     background: #eee;
+}
+.contact-section {
+    background: #fff;
+    padding-top: 70px;
+    text-align: center;
 }
 
 
