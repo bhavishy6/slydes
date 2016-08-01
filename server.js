@@ -80,7 +80,7 @@ function createImageObject(filename) {
 }
 
 
-var upload = multer({ storage : storage }).array('userPhoto', UPLOAD_LIMIT);
+var upload = multer({ storage : storage }).array('userPhoto');
 
 
 
