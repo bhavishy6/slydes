@@ -1,17 +1,8 @@
 
 
         <section id="upload" class="upload-section content-section text-center">
-        <p id="upload_limit"></p>
 
         <span id = "status"></span>
-
-        <script>
-            $.get("/get_upload_limit", function(data) {
-                limit = data.upload_limit;
-                console.log(limit);
-                $("#upload_limit").text("Upload Limit: " + limit);
-            });
-        </script>
 
         <form id="uploadForm"
         action="/uploadToAlbum"
