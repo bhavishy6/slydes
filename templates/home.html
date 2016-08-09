@@ -95,7 +95,7 @@
 		<h6>New Album</h6>
         <form id="newAlbumForm" action="/new_album" method="post">
             <label>Album Title:</label><input type='text' id='albumtitle' name='albumtitle' required><br>
-            <label>Owner:</label><input type='text' id='ownerName' name='ownerName' value='emma watson' required><br>
+            <label style="visibility: hidden;">Owner:</label><input type='text' id='ownerName' name='ownerName' value='emma watson' required style="visibility: hidden;"><br>
             <label>Descrption:</label><input type='text' id='desc' name='desc' required><br>
             <!-- <input type='password' id='key' name='key'><br> -->
             <input type="submit" value="New Album">
