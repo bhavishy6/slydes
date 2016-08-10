@@ -23,6 +23,7 @@ app.set('views', path.join(__dirname, 'views'));
 
 app.use(bodyParser.urlencoded({ extended:false }));
 app.use('/styles', express.static(__dirname + '/styles'));
+app.use('/fonts', express.static(__dirname + '/fonts'));
 // app.use('/app', express.static(__dirname + '/app'));
 app.use('/js', express.static(__dirname + '/js'));
 app.use('/js/controllers', express.static(__dirname + '/js/controllers'));
@@ -76,6 +77,7 @@ var storage	=	multer.diskStorage({
 });
 
 function createImageObject(filename) {
+    console.log("image mongoose created");
     imagesUpload.push(new Mongoose.Image( {	date: Date.now(), filename: filename, meta: { favs: 0 } } ));
 }
 
@@ -154,8 +156,6 @@ app.post("/empty_album", function(req, res) {
 });
 
 app.post("/uploadToAlbum", upload, function(req,res){
-   // upload(req,res,function(err) {
-//        fs.mkdirSync("./public/uploads/");
         MUST_WALK_AGAIN = 1;
         mogodb.DB_insertMongooseImagesToAlbum(imagesUpload, req.body.album_selector, function(album) {
             console.log("insert callback:: \n" + album);
@@ -163,6 +163,34 @@ app.post("/uploadToAlbum", upload, function(req,res){
         res.end("File is uploaded");
    // });
 });
+
+app.post("/createAlbum", function(req, res) {
+    upload(req, res, function(err) {
+        var album_title = req.body.albumtitle;
+        var album_description = req.body.desc;
+
+        var hashed_key;
+        var isProtected;
+        if(req.body.key) {
+            isProtected = true;
+            bcrypt.genSalt(saltRounds, function(err, salt) {
+                bcrypt.hash(req.body.key, salt, function(err, hash) {
+                    hashed_key = hash;
+                });
+            });
+        } else {
+            isProtected = false;
+        }
+
+        MUST_WALK_AGAIN = 1;
+        mogodb.DB_createAlbum("emma watson", album_title, album_description, hashed_key, isProtected, imagesUpload, function(albumURL) {
+            console.log("Created Album \n" + albumURL);
+            // res.json({feedback: "Album Created!", url: url});
+            var redirectString = '#/set/'+albumURL;
+            res.json({status: "success", url: redirectString});
+        });
+    });
+})
 
 app.get("request_access", function(req, res) {
 

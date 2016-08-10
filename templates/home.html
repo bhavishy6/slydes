@@ -1,103 +1,44 @@
 
 
         <section id="upload" class="upload-section content-section text-center">
+            <h4>Create Album</h4>
+            <center>
+                <form id="uploadForm"
+                method="post">
+                            <div class="input-group">
+                                <label class="input-group-btn">
+                                    <span class="btn btn-primary">
+                                        Browse&hellip; <input type="file" style="display: none;" id="images_upload" name="userPhoto" multiple required>
+                                    </span>
+                                </label>
+                                <input type="text" class="form-control" readonly>
+                            </div>
 
-        <span id = "status"></span>
+                    <!-- <select name="album_selector" class="album_selector" required>
+                        <option ng:repeat="album in albums" value="{{album.url}}" >{{album.title}}</option>
+                    </select> -->
+                    <div id="album_metadata_field" style="display: none">
+                        <div class="input-group">
+                            <label class="input-group-addon" id="sizing-addon2">Title</label>
+                            <input type='text' class="form-control" aria-describedby="basic-addon1" id='albumtitle' name='albumtitle' required>
 
-        <form id="uploadForm"
-        action="/uploadToAlbum"
-        method="post">
-                <input type="file" name="userPhoto" multiple required/>
-            <select name="album_selector" class="album_selector" required>
-                <option ng:repeat="album in albums" value="{{album.url}}" >{{album.title}}</option>
-            </select>
-			<input type="submit" value="Upload Image" name="submit" onclick="uploaded()">
-        </form>
+                        </div>
+                        <div class="input-group">
+                            <label class="input-group-addon" id="sizing-addon2">Descrption</label>
+                            <input type='text' class="form-control" aria-describedby="basic-addon1" id='desc' name='desc' required>
+                        </div>
+                        <input type="submit" class="btn btn-default" value="Create!" name="submit" onclick="uploaded()">
+                    </div>
+                </form>
+            </center>
+            <script>
+                $('input#images_upload').change(function() {
+                    $('div#album_metadata_field').fadeIn('slow', function() {
+                    });
+                });
+            </script>
 
-        <h6>Preview Album</h6>
-        <form id="previewForm" method="post">
-            <select class="album_selector" name="album_select" data-ng-model="selectedOption" required >
-                <option ng:repeat="album in albums" value="{{album.url}}">{{album.title}}</option>
-            </select>
 
-            <!--name="submit" onclick="toggle_preview()" -->
-
-            <input type="submit" value="Preview Images" ui-sref="set({guid: selectedOption })">
-        </form>
-
-        <div id="images_preview"></div>
-        <script>
-            var displayed = 0;
-            var images = [];
-            var walk_again = 1;
-
-            function uploaded() {
-               	walk_again = 1;
-			}
-
-            function isInArray(array, value) {
-                return array.indexOf(value) > -1;
-
-            };
-            //TODO: cache images
-            /*function toggle_preview() {
-                if(images.length === 0)
-                    walk_again = 1;
-
-                if(!displayed) {
-                    //process to cache images:
-                    if(walk_again) {
-                       $.get("/images", function(data) {
-                           console.log(data);
-                           images = data.images;
-                           for (i = 2; i < images.length; i++) {
-                               console.log(data.images[i] + ": "+ isInArray(images, data.images[i]))
-                               if(!isInArray(images, data.images[i])) {
-                                   console.log("walk: " + images[i]);
-                                   $("#images_preview").append("<img src='" + data.images[i]+ "' height='200px' width='200px'>");
-                                   displayed = 1;
-                               }
-                           }
-                       });
-                        walk_again = 0;
-                    } else {
-                        for (i = 2; i < images.length; i++) {
-                            console.log("cached: " + images[i]);
-                            $("#images_preview").append("<img src='" + images[i]+ "' height='200px' width='200px'>");
-                            displayed = 1;
-                        }
-                    }
-                } else {
-                    //process to hide:
-                    $("#images_preview").children().hide();
-                    displayed = 0;
-                }
-            }*/
-
-        </script>
-
-        <!-- <h6>Delete Album</h6>
-        <form id="deleteForm" action="/delete_album">
-            <select class="album_selector" name="album">
-            </select>
-            <input type="button" onclick="delete_album()" value="Delete Album">
-        </form> -->
-
-		<h6>New Album</h6>
-        <form id="newAlbumForm" action="/new_album" method="post">
-            <label>Album Title:</label><input type='text' id='albumtitle' name='albumtitle' required><br>
-            <label style="visibility: hidden;">Owner:</label><input type='text' id='ownerName' name='ownerName' value='emma watson' required style="visibility: hidden;"><br>
-            <label>Descrption:</label><input type='text' id='desc' name='desc' required><br>
-            <!-- <input type='password' id='key' name='key'><br> -->
-            <input type="submit" value="New Album">
-        </form>
-
-        <!-- <h6>Empty Album</h6>
-        <form id="emptyAlbumForm" action="/empty_album">
-            <select class="album_selector" name="album">
-            </select>
-            <input type="button" onclick="delete_album()" value="Empty Album">
-        </form> -->
     </section>
 
         <!-- About Section -->
@@ -105,79 +46,73 @@
             <div class="container">
                 <div class="row">
                     <div class="col-lg-12">
-                        <h1>About Sl<span id="y" class="lower light">y</span>des.</h1>
+                        <h1>Using Sl<span id="y" class="lower light">y</span>des.</h1>
                         <p>
                             Upload your photos and albums and easily share them across the world with one simple link!
                         </p>
                         <ul class="features">
-                            <li>Share albums to the world or to specific people with the ability to set a secure key</li>
-                            <li>Simply share the key with the people you want to give access to and voila!</li>
+                            <li>Upload your images and create an album!</li>
+                            <li>Share your album's link to easily send an automatic slideshow to your friends!</li>
                         </ul>
                     </div>
-                    <a class="btn btn-default page-scroll" href="#projects">View more</a>
                 </div>
             </div>
         </section>
 
-        <section id="contact" class="contact-section">
+        <div class="footer">
+            <center>
             <div class="container">
                 <div class="row">
                     <div class="col-lg-12">
-                        <h2>Contact Me</h2>
                             <ul class="list-inline banner-social-buttons">
                                 <li>
-                                    <a href="https://github.com/bhavishy6" class="btn btn-default btn-lg">
-                                        <i class="fa fa-github fa-fw"></i>
-                                        <span class="network-name">Github</span>
+                                    <a class="btn btn-social-icon btn-github btn-lg" href="https://github.com/bhavishy6">
+                                        <span class="fa fa-github"></span>
                                     </a>
-                                </li>
-                                <li>
-                                    <a href="https://soundcloud.com/bhavishy6" class="btn btn-default btn-lg">
-                                        <i class="fa fa-soundcloud fa-fw"></i>
-                                        <span class="network-name">SoundCloud</span>
+                                    <a class="btn btn-social-icon btn-linkedin btn-lg" href="https://www.linkedin.com/in/bhavish-yalamanchi-60766ba3">
+                                        <span class="fa fa-linkedin"></span>
                                     </a>
                                 </li>
                             </ul>
                     </div>
                 </div>
             </div>
-        </section>
+        </center>
+        </div>
 
     <script>
 
     $(document).ready(function() {
+        $('#uploadForm').ajaxForm({
+            url : '/createAlbum', // or whatever
+            dataType : 'json',
+            success : function (response) {
+                console.log("The server says: " + response);
+                window.location.replace(response.url);
+            }
+        })
 
-        $('#uploadForm').submit(function() {
-            $("#status").empty().text("File is uploading...");
-            $(this).ajaxSubmit({
-                error: function(xhr) {
-                    status('Error: ' + xhr.status);
-                },
+        //----------BOOTSTRAP FORM SETUP
+        $(document).on('change', ':file', function() {
+           var input = $(this),
+               numFiles = input.get(0).files ? input.get(0).files.length : 1,
+               label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+           input.trigger('fileselect', [numFiles, label]);
+         });
 
-                success: function(response) {
-                    console.log(response)
-                    $("#status").empty().text(response);
+        $(document).ready( function() {
+            $(':file').on('fileselect', function(event, numFiles, label) {
+
+                var input = $(this).parents('.input-group').find(':text'),
+                    log = numFiles > 1 ? numFiles + ' files selected' : label;
+
+                if( input.length ) {
+                    input.val(log);
+                } else {
+                    if( log ) alert(log);
                 }
+
             });
-
-            return false;
         });
-
-        $('#newAlbumForm').submit(function() {
-            $("#status").empty().text("File is uploading...");
-            $(this).ajaxSubmit({
-                error: function(xhr) {
-                    status('Error: ' + xhr.status);
-                },
-
-                success: function(response) {
-                    console.log(response)
-                    $("#status").empty().text(response);
-                }
-            });
-
-            return false;
-        });
-
     });
     </script>
