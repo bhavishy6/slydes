@@ -12,6 +12,18 @@ body {
     height: 100%;
 }
 
+#URLwrapper {
+    overflow: auto;
+    position:relative;
+}
+div#albumURLGroup {
+    float: right;
+}
+
+div#albumDescriptionGroup {
+    float: left;
+}
+
 html {
     width: 100%;
     height: 100%;
@@ -177,7 +189,7 @@ ul.features {
     text-align: center;
 }
 
-.input-group {
+div.input-group div#home-input{
     width: 80%;
 }
 

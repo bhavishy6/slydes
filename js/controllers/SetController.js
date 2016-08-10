@@ -1,4 +1,4 @@
-angular.module('SetController', []).controller('SetController', function($scope, $http, Set, $stateParams, $timeout)  {
+angular.module('SetController', []).controller('SetController', function($scope, $http, Set, $stateParams, $timeout, $location)  {
     // var keyG;
     // var validated = false;
     // $scope.$watch("key", function(val) {
@@ -13,7 +13,8 @@ angular.module('SetController', []).controller('SetController', function($scope,
             $scope.tagline = response.title;
             $scope.slides = response.images;
             $scope.numSlides = response.images.length;
-            // console.log(response.isProtected);
+            $scope.album_url = "#"+$location.path();
+            $scope.album_description = response.description;
             // $scope.isProtected = response.isProtected;
             // if($scope.isProtected) {
             //     validated = false;

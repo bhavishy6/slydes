@@ -5,7 +5,7 @@
             <center>
                 <form id="uploadForm"
                 method="post">
-                            <div class="input-group">
+                            <div class="input-group" id="home-input">
                                 <label class="input-group-btn">
                                     <span class="btn btn-primary">
                                         Browse&hellip; <input type="file" style="display: none;" id="images_upload" name="userPhoto" multiple required>
@@ -18,12 +18,12 @@
                         <option ng:repeat="album in albums" value="{{album.url}}" >{{album.title}}</option>
                     </select> -->
                     <div id="album_metadata_field" style="display: none">
-                        <div class="input-group">
+                        <div class="input-group" id="home-input">
                             <label class="input-group-addon" id="sizing-addon2">Title</label>
                             <input type='text' class="form-control" aria-describedby="basic-addon1" id='albumtitle' name='albumtitle' required>
 
                         </div>
-                        <div class="input-group">
+                        <div class="input-group" id="home-input">
                             <label class="input-group-addon" id="sizing-addon2">Descrption</label>
                             <input type='text' class="form-control" aria-describedby="basic-addon1" id='desc' name='desc' required>
                         </div>
@@ -76,6 +76,9 @@
                             </ul>
                     </div>
                 </div>
+                <center>
+                    Copyright (c) 2016 Bhavish Yalamanchi All Rights Reserved.
+                </center>
             </div>
         </center>
         </div>

@@ -2,6 +2,21 @@
         <h3 class="album_title">
             {{tagline}}
         </h3>
+        <div class="row" id="URLwrapper">
+            <div class="col-lg-6">
+                <div class="input-group input-group-sm" id="albumDescriptionGroup">
+                    <label class="input-group-addon" id="sizing-addon2">Description</label>
+                    <input type='text' class="form-control" aria-describedby="basic-addon1" id="album_url" value={{album_description}}>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="input-group input-group-sm col-lg-6" id="albumURLGroup">
+                    <label class="input-group-addon" id="sizing-addon2">URL</label>
+                    <input type='text' class="form-control" aria-describedby="basic-addon1" id="album_url" value={{album_url}}>
+                </div>
+            </div>
+
+        </div>
 
         <form name="keycheck" ng-show="{{false}}" ng-submit="validate()">
             <input type="password" name="key_input" ng-model="keyForm.key"/>
@@ -16,5 +31,7 @@
         </figure>
     </div>
     <script>
-
+    $(document).ready(function() {
+        $('h4#album_url').text(window.location);
+    });
     </script>
