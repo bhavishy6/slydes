@@ -9,7 +9,7 @@ angular.module('appRoutes', ['ui.router'])
             abstract: true
         })
         .state('set', {
-            url: '/set/:guid',
+            url: '/set/:guid?height&width',
             templateUrl: 'templates/set.html',
             controller: 'SetController'
         })

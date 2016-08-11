@@ -29,6 +29,7 @@ app.use('/js', express.static(__dirname + '/js'));
 app.use('/js/controllers', express.static(__dirname + '/js/controllers'));
 app.use('/js/services', express.static(__dirname + '/js/services'));
 app.use('/templates', express.static(__dirname + '/templates'));
+app.use('/modules', express.static(__dirname + '/modules'));
 app.use(bodyParser.json());
 app.use('/public', express.static(__dirname + "/public"));
 app.use('/public/libs', express.static(__dirname + "/public/libs"));

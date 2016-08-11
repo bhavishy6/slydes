@@ -15,6 +15,8 @@ angular.module('SetController', []).controller('SetController', function($scope,
             $scope.numSlides = response.images.length;
             $scope.album_url = "#"+$location.path();
             $scope.album_description = response.description;
+            $scope.image_height = $stateParams.height;
+            $scope.image_width = $stateParams.width;
             // $scope.isProtected = response.isProtected;
             // if($scope.isProtected) {
             //     validated = false;
