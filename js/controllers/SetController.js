@@ -22,6 +22,7 @@ angular.module('SetController', []).controller('SetController', function($scope,
             //     validated = false;
             // }
         });
+        $scope.showURL = $stateParams.showURL;
 
         $scope.$evalAsync(function() {
 

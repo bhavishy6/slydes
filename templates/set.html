@@ -9,7 +9,7 @@
                     <input type='text' class="form-control" aria-describedby="basic-addon1" id="album_url" value={{album_description}}>
                 </div>
             </div>
-            <div class="col-lg-6">
+            <div ng-show="{{showURL}}" class="col-lg-6" id="albumURLCOL">
                 <div class="input-group input-group-sm col-lg-6" id="albumURLGroup">
                     <label class="input-group-addon" id="sizing-addon2">URL</label>
                     <input type='text' class="form-control" aria-describedby="basic-addon1" id="album_url" value={{album_url}}>
