@@ -24,9 +24,11 @@
         </form>
 
 
-    <div class="bss-slides" style="width:{{image_width}}; height:{{image_height}}">
+    <div class="bss-slides">
         <figure ng:repeat="image in slides" >
-            <img ng-src="public/uploads/{{image.filename}}" />
+            <center>
+                <img ng-src="public/uploads/{{image.filename}}" width={{image.width}} height={{image.height}} />
+            </center>
             <figcaption>{{image.date}} <a href="public/uploads/{{image.filename}}" download >Download</a> </figcaption>
         </figure>
     </div>

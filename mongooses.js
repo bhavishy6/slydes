@@ -17,7 +17,7 @@ var albumSchema = new Schema({
   url: String,
   key: String,
   isProtected: Boolean,
-  images: [{ date: Date, filename: String, meta: {favs: Number} }],
+  images: [{ date: Date, filename: String, height: Number, width: Number, meta: {favs: Number} }],
   meta: {
     favs:  Number
   }
@@ -27,6 +27,8 @@ var albumSchema = new Schema({
 var imageSchema = new Schema({
 	date: Date,
 	filename: String,
+    height: Number,
+    width: Number,
 	meta: {
 		favs: Number
 	}

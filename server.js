@@ -5,6 +5,7 @@ var path = require("path");
 var app	=	express();
 var multer	=	require('multer');
 var bcrypt = require('bcrypt');
+var sizeOf = require('image-size');
 const saltRounds = 10;
 
 //MongoClient:
@@ -60,15 +61,15 @@ var storage	=	multer.diskStorage({
                 break;
             case "image/png":
                 filename= file.fieldname + '-' + guid + ".png";
-                console.log(filename + "is a [png]");
+                console.log(filename + " is a [png]");
                 break;
             case "image/gif":
                 filename= file.fieldname + '-' + guid + ".gif";
-                console.log(filename + "is a [gif]");
+                console.log(filename + " is a [gif]");
                 break;
             default:
                 filename= file.fieldname + '-' + guid + ".jpg";
-                console.log(filename + "defaulted to [jpg]");
+                console.log(filename + " defaulted to [jpg]");
                 break;
         }
         console.log("filename :" + filename);
@@ -78,8 +79,8 @@ var storage	=	multer.diskStorage({
 });
 
 function createImageObject(filename) {
-    console.log("image mongoose created");
     imagesUpload.push(new Mongoose.Image( {	date: Date.now(), filename: filename, meta: { favs: 0 } } ));
+    console.log("image mongoose created");
 }
 
 
@@ -184,6 +185,11 @@ app.post("/createAlbum", function(req, res) {
         }
 
         MUST_WALK_AGAIN = 1;
+        imagesUpload.forEach(function(image) {
+            image.height= sizeOf("./public/uploads/" + image.filename).height;
+            image.width= sizeOf("./public/uploads/" + image.filename).width
+        });
+
         mogodb.DB_createAlbum("emma watson", album_title, album_description, hashed_key, isProtected, imagesUpload, function(albumURL) {
             console.log("Created Album \n" + albumURL);
             // res.json({feedback: "Album Created!", url: url});
