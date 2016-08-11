@@ -23,6 +23,9 @@ angular.module('SetController', []).controller('SetController', function($scope,
             // }
         });
         $scope.showURL = $stateParams.showURL;
+        if($stateParams.showURL) {
+            $('nav.navbar').remove();
+        }
 
         $scope.$evalAsync(function() {
 
